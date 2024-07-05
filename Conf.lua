@@ -1,0 +1,2123 @@
+setDefaultTab("Main")
+lblInfo= UI.Label("PvP")
+lblInfo:setColor("lightGray")
+-----
+g_ui.loadUIFromString([[
+
+cPanel < Panel
+  margin: 3
+  margin-bottom: 17
+  layout:
+    type: verticalBox
+  image-source: /imagens/x_x2
+
+cmbComboWindow < MainWindow
+  !text: tr(' Painel criado por UnnBottz ')
+  font: verdana-11px-rounded
+  size: 215 160
+  color: lightGray
+  @onEscape: self:hide()
+
+  TabBar
+    id: cmbTabBar
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-left: 40
+
+
+
+  Panel
+    id: cmbImagem
+    anchors.top: cmbTabBar.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    image-border: 9
+
+
+
+  Button
+    id: closeButton
+    !text: tr('Fechar')
+    color: lightGray
+    font: verdana-11px-rounded
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    size: 49 21
+    margin-top: 13
+    margin-right: 5
+    margin-bottom: -5        
+
+
+]])
+
+local comboPanelName = "listt"
+  local ui = setupUI([[
+Panel
+
+  height: 12
+
+
+  Button
+    id: editCombo
+    color: orange
+    font: verdana-11px-rounded
+    anchors.top: parent.top
+    anchors.left: parent.left
+    text-align: center
+    width: 180
+    height: 15
+    !text: tr('Combo')
+
+  ]], parent)
+  ui:setId(comboPanelName)
+
+  if not storage[comboPanelName] then
+    storage[comboPanelName] = {} 
+  end
+
+rootWidget = g_ui.getRootWidget()
+if rootWidget then
+    CombosWindow = UI.createWidget('cmbComboWindow', rootWidget)
+    CombosWindow:hide()
+    TabBar2 = CombosWindow.cmbTabBar
+    TabBar2:setContentWidget(CombosWindow.cmbImagem)
+   for v = 1, 1 do
+
+
+
+
+cmbPanel = g_ui.createWidget("cPanel") -- Creates Panel
+cmbPanel:setId("panelButtons") -- sets ID
+
+cmbPanel2 = g_ui.createWidget("cPanel") -- Creates Panel
+cmbPanel2:setId("2") -- sets ID
+
+cmbPanel3 = g_ui.createWidget("cPanel") -- Creates Panel
+cmbPanel:setId("panelButtons") -- sets ID
+
+cmbPanel4 = g_ui.createWidget("cPanel") -- Creates Panel
+cmbPanel:setId("panelButtons") -- sets ID
+
+
+TabBar2:addTab("Auto Combo", cmbPanel)
+TabBar2:setMarginLeft("50")
+
+
+
+g_ui.loadUIFromString([[
+
+spellzszourceBoxPopupMenu < ComboBoxPopupMenu
+spellzszourceBoxPopupMenuButton < ComboBoxPopupMenuButton
+spellzszourceBox < ComboBox
+  @onSetup: |
+    self:addOption("Combo")
+    self:addOption("Area")
+
+
+
+spellzEntryz < Label
+  background-color: alpha
+  text-offset: 18 0
+  focusable: true
+  height: 16
+
+  CheckBox
+    id: enabled
+    anchors.left: parent.left
+    anchors.verticalCenter: parent.verticalCenter
+    width: 15
+    height: 15
+    margin-top: 2
+    margin-left: 3
+
+  $focus:
+    background-color: #00000055
+
+
+  Button
+    id: remove
+    !text: tr('x')
+    color: lightGray
+    anchors.right: parent.right
+    margin-right: 15
+    width: 15
+    height: 15                       
+
+spellzHealing < Panel
+  image-source: /images/ui/panel_flat
+  image-border: 6
+  padding: 3
+  size: 440 220
+
+  Label
+    id: whenspellz
+    anchors.left: spellzListz.right
+    anchors.top: parent.top
+    text: Tipo
+    width: 28
+    color: lightGray
+    font: verdana-11px-rounded
+    margin-top: 10
+    margin-left: 5
+
+  spellzszourceBox
+    id: spellzszource
+    anchors.top: parent.top
+    anchors.left: whenspellz.right
+    margin-top: 5
+    margin-left: 35
+    width: 100
+
+
+
+  Label
+    id: castspellz
+    anchors.left: whenspellz.left
+    anchors.top: whenspellz.bottom
+    text: Magia
+    color: lightGray
+    font: verdana-11px-rounded
+    margin-top: 9
+
+  TextEdit
+    id: spellzFormula
+    color: lightGray
+    size: 100 21
+    margin-left: -20
+    anchors.left: spellzszource.left
+    anchors.top: spellzszource.bottom
+    anchors.right: spellzvaluez.right
+
+
+
+  TextList
+    id: spellzListz
+    anchors.left: parent.left
+    anchors.bottom: parent.bottom
+    padding: 1
+    size: 270 216    
+    margin-bottom: 3
+    margin-left: 3
+    vertical-scrollbar: spellzListzScrollBar
+
+  VerticalScrollBar
+    id: spellzListzScrollBar
+    anchors.top: spellzListz.top
+    anchors.bottom: spellzListz.bottom
+    anchors.right: spellzListz.right
+    step: 14
+    pixels-scroll: true
+
+
+  Button
+    id: MoveUp
+    anchors.right: addspellz.right
+    anchors.bottom: addspellz.bottom
+    margin-bottom: -35
+    margin-right: -9
+    text: MoverUP
+    color : lightGray
+    size: 70 17
+    font: verdana-11px-rounded
+
+  Button
+    id: MoveDown
+    anchors.left: MoveUp.left
+    anchors.bottom: MoveUp.bottom
+    margin-bottom: 0
+    margin-left: -80
+    color : lightGray
+    text: MoverDOWN
+    size: 70 17
+    font: verdana-11px-rounded 
+
+  Button
+    id: addspellz
+    anchors.left: castspellz.left
+    anchors.bottom: castspellz.bottom
+    margin-bottom: -65
+    margin-right: 10
+    text: Adicionar
+    size: 140 17
+    color: lightGray
+    font: verdana-11px-rounded
+
+
+combozWindow < MainWindow
+  !text: tr('Painel criado por UnnBottz')
+  size: 470 276
+  color: lightGray
+  font: verdana-11px-rounded
+  @onEscape: self:hide()
+
+  spellzHealing
+    id: spellzsz
+    anchors.top: parent.top
+    anchors.left: parent.left
+
+
+
+  HorizontalSeparator
+    id: separator
+    anchors.right: parent.right
+    anchors.left: parent.left
+    anchors.bottom: closeButton.top
+    margin-bottom: 8    
+
+  Label
+    id: fdp
+    anchors.right: prev.left
+    anchors.bottom: parent.bottom
+    margin-right: -390
+    margin-bottom: 40
+    text: UnnBottz
+    width: 70
+    font: terminus-14px-bold
+    color: lightGray
+
+  Button
+    id: dicacombo
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    text-align: center
+    size: 45 21
+    margin-top: 16
+    margin-right: 110
+    font: verdana-11px-rounded
+    text: Dica
+    color: lightGray
+    !tooltip: tr('Clica em mim por favor :D')  
+
+
+  Button
+    id: closeButton
+    !text: tr('Fechar')
+    color: lightGray
+    font: verdana-11px-rounded
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    size: 45 21
+    margin-top: 15
+    margin-right: 5 
+
+]])
+
+
+
+combozPanelName = "combo"
+local ui = setupUI([[
+Panel
+  height: 20
+
+  Button
+    id: combos
+    color: lightGray
+    font: verdana-11px-rounded
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    height: 20
+    text: Configuracao
+
+]],cmbPanel)
+ui:setId(combozPanelName)
+
+if not storage[combozPanelName] or not storage[combozPanelName].spellzTablez then
+  storage[combozPanelName] = {
+    enabled = false,
+    checkboxz = false,
+    spellzTablez = {},
+  }
+end
+
+
+
+
+
+ui.combos.onClick = function(widget)
+  combozWindow:show()
+  combozWindow:raise()
+  combozWindow:focus()
+end
+
+modules.game_interface.addMenuHook("category", "Combo",
+  function()
+          combozWindow:show()
+  end,
+  function(menuPosition, lookThing, useThing, creatureThing)
+    if creatureThing and creatureThing == player then
+      return true
+    end
+    return false
+  end
+)
+
+
+rootWidget = g_ui.getRootWidget()
+if rootWidget then
+  combozWindow = UI.createWidget('combozWindow', rootWidget)
+  combozWindow:hide()
+
+
+
+
+  local refreshspellzszz = function()
+    if storage[combozPanelName].spellzTablez and #storage[combozPanelName].spellzTablez > 0 then
+      for i, child in pairs(combozWindow.spellzsz.spellzListz:getChildren()) do
+        child:destroy()
+      end
+      for _, entry in pairs(storage[combozPanelName].spellzTablez) do
+        local label = g_ui.createWidget("spellzEntryz", combozWindow.spellzsz.spellzListz)
+label.onDoubleClick = function(widget)
+      for _, entry in pairs(storage[combozPanelName].spellzTablez) do
+                  table.removevalue(storage[combozPanelName].spellzTablez, entry)
+                    label:destroy()
+                    combozWindow.spellzsz.spellzFormula:setText(entry.spellz);
+                  end
+        end
+        label.enabled:setChecked(entry.enabled)
+        label.enabled.onClick = function(widget)
+          entry.enabled = not entry.enabled
+          label.enabled:setChecked(entry.enabled)
+        end
+        label.remove.onClick = function(widget)
+          table.removevalue(storage[combozPanelName].spellzTablez, entry)
+                    label:destroy()
+          reindexTable(storage[combozPanelName].spellzTablez)
+        end
+        label:setText(entry.originz .. entry.valuez .. ":" .. " " .. entry.spellz)
+        label:setColoredText({entry.originz, "lightGray", " : ", "black", " ", "black", entry.spellz, "white"})
+        label:setFont("verdana-11px-rounded")
+      end
+    end
+  end
+  refreshspellzszz()
+
+local Combuz = macro(200, "Combo", function()
+      for _, entry in pairs(storage[combozPanelName].spellzTablez) do
+if entry.enabled and entry.originz == "COMBO" and g_game.isAttacking() then
+say(entry.spellz)
+end
+end
+end, cmbPanel)
+---comboicone = addIcon("Combuz", {item=3292, movable=true, text="Combo"},Combuz) 
+
+
+
+local distance = 2 -- distancia 
+
+local distancia = 3
+upzs = macro(250, "Combo UP",  function()
+      for _, entry in pairs(storage[combozPanelName].spellzTablez) do
+    local specAmount = 0
+    if not g_game.isAttacking() then
+        return
+    end
+    for i,mob in ipairs(getSpectators()) do
+        if (getDistanceBetween(player:getPosition(), mob:getPosition())  <= distance and mob:isMonster())  then
+            specAmount = specAmount + 1
+        end
+    end
+    if entry.enabled and entry.originz == "AREA" and (specAmount >= distancia) then    
+        say(entry.spellz)
+return
+    elseif entry.enabled and entry.originz == "COMBO" then
+        say(entry.spellz)
+    end
+  end
+end, cmbPanel)
+---upicone = addIcon("Combuz", {item=3292, movable=true, text="Up"},Combuz) 
+
+ 
+
+
+
+  combozWindow.spellzsz.MoveUp.onClick = function(widget)
+    local input = combozWindow.spellzsz.spellzListz:getFocusedChild()
+    if not input then return end
+    local index = combozWindow.spellzsz.spellzListz:getChildIndex(input)
+    if index < 2 then return end
+
+    local move
+    local move2
+    if storage[combozPanelName].spellzTablez and #storage[combozPanelName].spellzTablez > 0 then
+      for _, entry in pairs(storage[combozPanelName].spellzTablez) do
+        if entry.index == index -1 then
+          move = entry
+        end
+        if entry.index == index then
+          move2 = entry
+        end
+      end
+      if move and move2 then
+        move.index = index
+        move2.index = index - 1
+      end
+    end
+    table.sort(storage[combozPanelName].spellzTablez, function(a,b) return a.index < b.index end)
+
+    combozWindow.spellzsz.spellzListz:moveChildToIndex(input, index - 1)
+    combozWindow.spellzsz.spellzListz:ensureChildVisible(input)
+  end
+
+
+
+  combozWindow.spellzsz.MoveDown.onClick = function(widget)
+    local input = combozWindow.spellzsz.spellzListz:getFocusedChild()
+    if not input then return end
+    local index = combozWindow.spellzsz.spellzListz:getChildIndex(input)
+    if index >= combozWindow.spellzsz.spellzListz:getChildCount() then return end
+
+    local move
+    local move2
+    if storage[combozPanelName].spellzTablez and #storage[combozPanelName].spellzTablez > 0 then
+      for _, entry in pairs(storage[combozPanelName].spellzTablez) do
+        if entry.index == index +1 then
+          move = entry
+        end
+        if entry.index == index then
+          move2 = entry
+        end
+      end
+      if move and move2 then
+        move.index = index
+        move2.index = index + 1
+      end
+    end
+    table.sort(storage[combozPanelName].spellzTablez, function(a,b) return a.index < b.index end)
+
+    combozWindow.spellzsz.spellzListz:moveChildToIndex(input, index + 1)
+    combozWindow.spellzsz.spellzListz:ensureChildVisible(input)
+  end
+
+
+
+  combozWindow.spellzsz.addspellz.onClick = function(widget)
+
+
+    local spellzFormula = combozWindow.spellzsz.spellzFormula:getText():trim()
+    local spellzTrigger = combozWindow.spellzsz:getText()
+    local spellzszource = combozWindow.spellzsz.spellzszource:getCurrentOption().text
+    local source
+    local equasion
+
+
+    if not spellzTrigger then  
+      warn("Error") 
+      combozWindow.spellzsz.spellzFormula:setText('')
+      return 
+    end
+
+
+
+
+    if spellzszource == "Combo" then
+      source = "COMBO"
+    elseif spellzszource == "Area" then
+      source = "AREA"
+    end
+
+    if spellzFormula:len() > 0 then
+      table.insert(storage[combozPanelName].spellzTablez,  {index = #storage[combozPanelName].spellzTablez+1, spellz = spellzFormula, areas = spellzFormula, signz = equasion, originz = source, valuez = spellzTrigger, enabled = true})
+      combozWindow.spellzsz.spellzFormula:setText('')
+    end
+    refreshspellzszz()
+  end
+
+
+  combozWindow.closeButton.onClick = function(widget)
+    combozWindow:hide()
+  end
+
+  combozWindow.dicacombo.onClick = function(widget)
+    modules.corelib.displayInfoBox(tr("Dica!"), "#Edite uma magia dando double click na magia.\n#Para Utilizar a magia de area, deixe-a na 1 linha do combo, desligue o combo e ligue o combo up.\nUnnBottz")
+  end
+
+
+end
+
+  CombosWindow.closeButton.onClick = function(widget)
+    CombosWindow:hide()
+  end
+
+end
+end
+
+
+
+ui.editCombo.onClick = function(widget)
+    CombosWindow:show()
+    CombosWindow:raise()
+    CombosWindow:focus()
+  end
+-----
+
+
+ 
+
+
+
+
+
+----
+
+
+------
+
+oldtarget = macro(100, "Attack Target", nil, function()
+  if g_game.isAttacking() 
+then
+ oldTarget = g_game.getAttackingCreature()
+  end
+  if (oldTarget and oldTarget:getPosition()) 
+then
+ if (not g_game.isAttacking() and getDistanceBetween(pos(), oldTarget:getPosition()) <= 8) then
+    
+if (oldTarget:getPosition().z == posz()) then
+        g_game.attack(oldTarget)
+      end
+    end
+  end
+end)
+
+onKeyDown(function(keys)
+ 
+if keys == "Escape" then
+    oldTarget = nil
+g_game.cancelAttack()
+  end
+end)
+---targeticon = addIcon("oldtarget", {item=5777, movable=true, text="Target"},oldtarget) 
+
+-----
+
+
+local toolsTabActive = false
+
+function setMainTab()
+    setDefaultTab("main")
+end
+
+function setToolsTab()
+    setDefaultTab("Especial")
+    toolsTabActive = true
+end
+
+function unsetToolsTab()
+    toolsTabActive = false
+end
+
+setMainTab()
+
+local exhausted = 1000
+
+macro(100, "Especial Por Porcentagem", function()
+    if not g_game.isAttacking() then return end
+
+    local c = g_game.getAttackingCreature()
+    local hp = c:getHealthPercent()
+    local arr_1 = storage.Jutsu_1
+    local arr_2 = storage.HpJutsu_1
+
+    local jutsus = {}
+    local thresholds = {}
+
+    for x in string.gmatch(arr_1, "[^,]+") do
+        table.insert(jutsus, x)
+    end
+
+    for z in string.gmatch(arr_2, "[^,]+") do
+        table.insert(thresholds, tonumber(z))
+    end 
+
+    if #jutsus > 0 then
+        for i, jutsu in ipairs(jutsus) do
+            if hp <= thresholds[i] then
+                say(jutsu)
+                delay(exhausted)
+            end
+        end
+    end
+end)
+
+setToolsTab() 
+
+if toolsTabActive then
+    lblInfo = UI.Label("Especial Por Porcentagem")
+    lblInfo:setColor("lightGray")
+
+    UI.TextEdit(storage.Jutsu_1 or "", function(widget, text)    
+        storage.Jutsu_1 = text
+    end)
+
+    UI.TextEdit(storage.HpJutsu_1 or "", function(widget, text)    
+        storage.HpJutsu_1 = text
+    end)
+end
+
+-----
+
+
+local toolsTabActive = false
+
+function setMainTab()
+    setDefaultTab("main")
+end
+
+function setToolsTab()
+    setDefaultTab("Especial")
+    toolsTabActive = true
+end
+
+function unsetToolsTab()
+    toolsTabActive = false
+end
+
+setMainTab()
+
+local exhausted = 1000
+
+-- Macro function to execute jutsus based on health percentage
+macro(100, "Fuga Por Porcentagem", function()
+    local currentHpPercent = hppercent()
+    local arr_1 = storage.Jutsu_2
+    local arr_2 = storage.HpJutsu_2
+
+    local jutsus = {}
+    local thresholds = {}
+
+    -- Split the jutsus and thresholds strings into tables
+    for x in string.gmatch(arr_1, "[^,]+") do
+        table.insert(jutsus, x)
+    end
+
+    for z in string.gmatch(arr_2, "[^,]+") do
+        table.insert(thresholds, tonumber(z))
+    end 
+
+    -- Execute the jutsus if current HP percentage is less than or equal to the threshold
+    if #jutsus > 0 and #thresholds > 0 then
+        for i, threshold in ipairs(thresholds) do
+            if currentHpPercent <= threshold then
+                say(jutsus[i])
+                delay(exhausted)
+                break -- Exit loop after executing the jutsu
+            end
+        end
+    end
+end)
+
+
+setToolsTab() 
+
+if toolsTabActive then
+    lblInfo = UI.Label("Fuga Por Porcentagem")
+    lblInfo:setColor("lightGray")
+
+    UI.TextEdit(storage.Jutsu_2 or "", function(widget, text)    
+        storage.Jutsu_2 = text
+    end)
+
+    UI.TextEdit(storage.HpJutsu_2 or "", function(widget, text)    
+        storage.HpJutsu_2 = text
+    end)
+end
+
+-----
+
+function setMainTab()
+    setDefaultTab("main")
+end
+
+setMainTab()
+local usingWASD = modules.game_walking.wsadWalking
+
+-- script
+local walkDir
+onKeyDown(function(keys)
+  usingWASD = modules.game_walking.wsadWalking
+  if usingWASD then
+    if keys == "D" or keys == "A" or keys == "S" or keys == "W" then
+      walkDir = keys
+    end
+  else
+    if keys == "Up" or keys == "Right" or keys == "Down" or keys == "Left" then
+      walkDir = keys
+    end
+  end
+end)
+
+jumpup = macro(200, "Jump Parede", function()
+  local playerPos = pos()
+  local levitateTile
+  if walkDir == "W" or walkDir == "Up" then -- north
+    playerPos.y = playerPos.y - 1
+    turn(0)
+    levitateTile = g_map.getTile(playerPos)
+  elseif walkDir == "D" or walkDir == "Right" then -- east
+    playerPos.x = playerPos.x + 1
+    turn(1)
+    levitateTile = g_map.getTile(playerPos)
+  elseif walkDir == "S" or walkDir == "Down" then -- south
+    playerPos.y = playerPos.y + 1
+    turn(2)
+    levitateTile = g_map.getTile(playerPos)
+  elseif walkDir == "A" or walkDir == "Left" then -- west
+    playerPos.x = playerPos.x - 1
+    turn(3)
+    levitateTile = g_map.getTile(playerPos)
+  end
+
+  if levitateTile and not levitateTile:isWalkable() then
+    if levitateTile:getGround() then
+      say('Jump up')
+      walkDir = nil
+    else
+      say('Jump down')
+      walkDir = nil
+    end
+  end
+  walkDir = nil
+end)
+---jumpiziicon = addIcon("jumpup", {item=1949, movable=true, text="Jump"},jumpup) 
+
+
+-----
+
+onKeyPress(function(keys)
+  if keys == "Up" then
+    turn(0)
+  elseif keys == "Down" then
+    turn(2)
+  elseif keys == "Left" then
+    turn(3)
+  elseif keys == "Right" then
+    turn(1)
+  end
+end)
+
+
+
+local wsadWalking = modules.game_walking.wsadWalking
+local doorsIds = {12097,7047, 5102, 5111, 6207, 1948, 435, 7771, 5542, 8657, 6264, 1646, 1648, 1678, 5291, 1680, 6905, 6262, 1664, 13296, 1067, 13861, 11931, 1949, 6896, 6205}
+
+function checkForDoors(pos)
+  local tile = g_map.getTile(pos)
+  if tile then
+    local useThing = tile:getTopUseThing()
+    if useThing and table.find(doorsIds, useThing:getId()) then
+      g_game.use(useThing)
+    end
+  end
+end
+
+onKeyPress(function(keys)
+  local pos = player:getPosition()
+  if keys == 'Numpad8' or (wsadWalking and keys == 'W') then
+    pos.y = pos.y - 1
+  elseif keys == 'Numpad2' or (wsadWalking and keys == 'S') then
+    pos.y = pos.y + 1
+  elseif keys == 'Numpad4' or (wsadWalking and keys == 'A') then
+    pos.x = pos.x - 1
+  elseif keys == 'Numpad6' or (wsadWalking and keys == 'D') then
+    pos.x = pos.x + 1
+  elseif keys == 'Numpad1' or (wsadWalking and keys == 'D') then
+    pos.x = pos.x - 1
+    pos.y = pos.y + 1
+  elseif keys == 'Numpad3' or (wsadWalking and keys == 'D') then
+    pos.x = pos.x + 1
+    pos.y = pos.y + 1
+  elseif keys == 'Numpad9' or (wsadWalking and keys == 'D') then
+    pos.x = pos.x + 1
+    pos.y = pos.y - 1
+  elseif keys == 'Numpad7' or (wsadWalking and keys == 'D') then
+    pos.x = pos.x - 1
+    pos.y = pos.y - 1
+  end
+  checkForDoors(pos)
+
+end)
+
+
+
+StairPos = {x = 0, y = 0,z = 0}
+
+Stair = macro(1, 'Escada', function()
+ for _, TileStair in ipairs(g_map.getTiles(posz())) do
+  if TileStair:isWalkable() and not TileStair:isPathable() then
+   StairColor = g_map.getMinimapColor(TileStair:getPosition())
+   if StairColor >= 210 and StairColor <= 213 then
+    if getDistanceBetween(TileStair:getPosition(), pos()) < getDistanceBetween(StairPos, pos()) or StairPos.z ~= posz() then
+      timewalk = now 
+      StairPos = TileStair:getPosition()
+    end
+   end
+  end
+ end
+end)
+
+onKeyPress(function(keys)
+ if Stair.isOn() then
+  if keys == 'Space' and g_map.getTile(StairPos) then
+    distanceStair = getDistanceBetween(StairPos, pos())
+   if distanceStair > 6 then
+    autoWalk(StairPos, 20, {ignoreNonPathable=true, precision=1})
+   return
+   end
+   if distanceStair > 1 then
+    use(g_map.getTile(StairPos):getTopUseThing())
+   end
+   if distanceStair <= 1 and timewalk <= now then
+    autoWalk(StairPos, 1, {ignoreNonPathable=false, precision=1, ignoreStairs=false})
+    timewalk = (now + 500)
+   end
+  end
+ end
+end)
+-----
+
+
+local bugMap = {};
+
+bugMap.checkBox = setupUI([[
+CheckBox
+  id: checkBox
+  font: cipsoftFont
+  text: Use Diagonal
+]]);
+
+bugMap.checkBox.onCheckChange = function(widget, checked)
+    storage.bugMapCheck = checked;
+end
+
+if storage.bugMapCheck == nil then
+	storage.bugMapCheck = true;
+end
+
+bugMap.checkBox:setChecked(storage.bugMapCheck);
+
+bugMap.isKeyPressed = modules.corelib.g_keyboard.isKeyPressed;
+
+bugMap.directions = {
+    ["W"] = {x = 0, y = -5, direction = 0},
+    ["E"] = {x = 3, y = -3},
+    ["D"] = {x = 5, y = 0, direction = 1},
+    ["C"] = {x = 3, y = 3},
+    ["S"] = {x = 0, y = 5, direction = 2},
+    ["Z"] = {x = -3, y = 3},
+    ["A"] = {x = -5, y = 0, direction = 3},
+    ["Q"] = {x = -3, y = 3}
+};
+
+bugMap.macro = macro(1, "Bug Map", function()
+    if (modules.game_console:isChatEnabled() or modules.corelib.g_keyboard.isCtrlPressed()) then return; end
+    local pos = pos();
+    for key, config in pairs(bugMap.directions) do
+        if (bugMap.isKeyPressed(key)) then
+            if (storage.bugMapCheck or config.direction) then
+                if (config.direction) then
+					turn(config.direction);
+				end
+                local tile = g_map.getTile({x = pos.x + config.x, y = pos.y + config.y, z = pos.z});
+                if (tile) then
+					return g_game.use(tile:getTopUseThing());
+				end
+            end
+        end
+    end
+end)
+
+
+-----
+
+local toolsTabActive = false
+
+function setMainTab()
+    setDefaultTab("main")
+end
+
+function setToolsTab()
+    setDefaultTab("Especial")
+    toolsTabActive = true
+end
+
+function unsetToolsTab()
+    toolsTabActive = false
+end
+
+
+setMainTab()
+
+local ui = setupUI([[
+KunaiBox < CheckBox
+  font: cipsoftFont
+  margin-top: 5
+  margin-left: 5
+  anchors.top: prev.bottom
+  anchors.left: parent.left
+  anchors.right: parent.right
+  color: lightGray
+
+Panel
+  height: 20
+
+  KunaiBox
+    id: ligarKunai
+    anchors.top: parent.top
+    text: Kunai
+    !tooltip: tr('Ligar DashKunai')
+]])
+
+local st = "KunaiFight"
+storage[st] = storage[st] or {
+  enabled = false,
+  ligarKunai = true,
+}
+local config = storage[st]
+
+
+ui.ligarKunai:setOn(config.enabled)
+ui.ligarKunai.onClick = function(widget)
+  config.enabled = not config.enabled
+  widget:setOn(config.enabled)
+end
+
+ui.ligarKunai:setChecked(config.ligarKunai)
+ui.ligarKunai.onClick = function(widget)
+  config.ligarKunai = not config.ligarKunai
+  widget:setChecked(config.ligarKunai)
+  widget:setImageColor(config.ligarKunai and "lightGray" or "lightGray")
+end
+ui.ligarKunai:setImageColor(config.ligarKunai and "lightGray" or "lightGray")
+
+
+setToolsTab()
+
+
+if toolsTabActive then
+    lblInfo = UI.Label("Id Dash Kunai")
+    lblInfo:setColor("lightGray")
+
+    UI.TextEdit(storage.IDKunai or "", function(widget, newText)
+        storage.IDKunai = newText
+    end)
+end
+
+local function checkPos(x, y)
+    local xyz = g_game.getLocalPlayer():getPosition()
+    xyz.x = xyz.x + x
+    xyz.y = xyz.y + y
+    local tile = g_map.getTile(xyz)
+    if tile then
+        return useWith(storage.IDKunai, tile:getTopUseThing())
+    else
+        return false
+    end
+end
+
+macro(1, function() 
+    if modules.corelib.g_keyboard.isKeyPressed('Numpad8') then
+        checkPos(0, -5)
+    elseif modules.corelib.g_keyboard.isKeyPressed('Numpad9') then
+        checkPos(3, -3)
+    elseif modules.corelib.g_keyboard.isKeyPressed('Numpad6') then
+        checkPos(5, 0)
+    elseif modules.corelib.g_keyboard.isKeyPressed('Numpad3') then
+        checkPos(3, 3)
+    elseif modules.corelib.g_keyboard.isKeyPressed('Numpad2') then
+        checkPos(0, 5)
+    elseif modules.corelib.g_keyboard.isKeyPressed('Numpad1') then
+        checkPos(-3, 3)
+    elseif modules.corelib.g_keyboard.isKeyPressed('Numpad4') then
+        checkPos(-5, 0)
+    elseif modules.corelib.g_keyboard.isKeyPressed('Numpad7') then
+        checkPos(-3, -3)
+    end
+end)
+
+
+
+----
+
+function setMainTab()
+    setDefaultTab("main")
+end 
+
+setMainTab()
+local ui = setupUI([[
+FaceTargetBox < CheckBox
+  font: cipsoftFont
+  margin-top: 5
+  margin-left: 5
+  anchors.top: prev.bottom
+  anchors.left: parent.left
+  anchors.right: parent.right
+  color: lightGray
+
+Panel
+  height: 20
+
+  FaceTargetBox
+    id: ligarFaceTarget 
+    anchors.top: parent.top
+    text: Turn
+    !tooltip: tr('Ligar FaceTarget')
+]])
+
+
+local st = "FaceTargetFight"
+storage[st] = storage[st] or {
+  enabled = false,
+  ligarFaceTarget = true,
+}
+local config = storage[st]
+
+
+ui.ligarFaceTarget:setOn(config.enabled)
+ui.ligarFaceTarget.onClick = function(widget)
+  config.enabled = not config.enabled
+  widget:setOn(config.enabled)
+end
+
+
+ui.ligarFaceTarget:setChecked(config.ligarFaceTarget)
+ui.ligarFaceTarget.onClick = function(widget)
+  config.ligarFaceTarget = not config.ligarFaceTarget
+  widget:setChecked(config.ligarFaceTarget)
+  widget:setImageColor(config.ligarFaceTarget and "lightGray" or "lightGray")
+end
+ui.ligarFaceTarget:setImageColor(config.ligarFaceTarget and "lightGray" or "lightGray")
+
+
+turnold = macro(200, function()
+  if not config.ligarFaceTarget then return end
+  local target = g_game.getAttackingCreature()
+  if not target then return end
+  local pos = player:getPosition()
+  local targetPos = target:getPosition()
+  local xDiff = targetPos.x > pos.x
+  local yDiff = targetPos.y > pos.y
+  local isXBigger = math.abs(targetPos.x - pos.x) > math.abs(targetPos.y - pos.y)
+
+  local dir = player:getDirection()
+  if xDiff and isXBigger then  
+      if dir ~= 1 then turn(1) end
+      return
+  elseif not xDiff and isXBigger then 
+      if dir ~= 3 then turn(3) end
+      return
+  elseif yDiff and not isXBigger then  
+      if dir ~= 2 then turn(2) end
+      return
+  elseif not yDiff and not isXBigger then 
+      if dir ~= 0 then turn(0) end
+      return
+  end
+end)
+
+-----
+
+
+local toolsTabActive = false
+
+function setMainTab()
+    setDefaultTab("main")
+end
+
+function setToolsTab()
+    setDefaultTab("Especial")
+    toolsTabActive = true
+end
+
+function unsetToolsTab()
+    toolsTabActive = false
+end
+
+setMainTab()
+
+local ui = setupUI([[
+SenseBox < CheckBox
+  font: cipsoftFont
+  margin-top: 5
+  margin-left: 5
+  anchors.top: prev.bottom
+  anchors.left: parent.left
+  anchors.right: parent.right
+  color: lightGray
+
+Panel
+  height: 20
+
+  SenseBox
+    id: ligarSense
+    anchors.top: parent.top
+    text: Sense
+    !tooltip: tr('Ligar Sense')
+]])
+
+
+local st = "SenseFight"
+storage[st] = storage[st] or {
+  enabled = false,
+  ligarBugMap = true,
+}
+local config = storage[st]
+
+ui.ligarSense:setOn(config.enabled)
+ui.ligarSense.onClick = function(widget)
+  config.enabled = not config.enabled
+  widget:setOn(config.enabled)
+end
+
+ui.ligarSense:setChecked(config.ligarSense)
+ui.ligarSense.onClick = function(widget)
+  config.ligarSense = not config.ligarSense
+  widget:setChecked(config.ligarSense)
+  widget:setImageColor(config.ligarSense and "lightGray" or "lightGray")
+end
+ui.ligarSense:setImageColor(config.ligarSense and "lightGray" or "lightGray")
+
+local targetName;
+local locatePlayer;
+local senseActive = false;
+
+-- Macro para detectar o alvo e enviar "sense"
+senseon = macro(1, function()
+    if not ui.ligarSense:isChecked() then return end
+
+    if not senseActive then
+        local target = g_game.getAttackingCreature();
+        if g_game.isAttacking() and target and target:isPlayer() then
+            targetName = target:getName();
+        end
+        if targetName then
+            local findTarget = getCreatureByName(targetName);
+            if not findTarget then return; end
+            say(storage.senseold_1 .. ' "' .. targetName)
+            delay(2000)
+        end
+    else
+        if storage.Sense then
+            locatePlayer = getPlayerByName(storage.Sense)
+            if not (locatePlayer and locatePlayer:getPosition().z == player:getPosition().z and getDistanceBetween(pos(), locatePlayer:getPosition()) <= 6) then
+                say(storage.senseold_1 .. ' "' .. storage.Sense)
+                delay(1000)
+            end
+        end
+    end
+end)
+
+-- Função para detectar mensagens de chat
+onTalk(function(name, level, mode, text, channelId, pos)
+    if (player:getName() ~= name) then return; end
+    if string.sub(text, 1, 1):lower() == 'x' then
+        local checkMsg = string.sub(text, 2):trim()
+        if checkMsg == '0' then
+            storage.Sense = false;
+            targetName = nil;
+            senseActive = false;
+        else
+            storage.Sense = checkMsg;
+            senseActive = true; 
+        end
+    end
+end)
+
+-- Configuração da aba de ferramentas
+setToolsTab()
+
+if toolsTabActive then
+    lblInfo = UI.Label("Magia Sense")
+    lblInfo:setColor("lightGray")
+
+    UI.TextEdit(storage.senseold_1 or "", function(widget, text)
+        storage.senseold_1 = text
+    end)
+end
+
+
+
+------
+
+
+
+
+-------------------------------------------
+lblInfo= UI.Label("Wars")
+lblInfo:setColor("lightGray")
+
+-------------------------------------------
+
+function runePartyAndGuildMembers(parent)
+  if not parent then
+    parent = panel
+  end
+
+  local panelName = "runePartyAndGuildMembers"
+  local ui = setupUI([[
+Panel
+  height: 65
+      
+  BotItem
+    id: item
+    anchors.left: parent.left
+    anchors.top: parent.top
+    
+  BotSwitch
+    id: title
+    anchors.left: prev.right
+    anchors.right: parent.right
+    anchors.verticalCenter: prev.verticalCenter
+    text-align: center
+    margin-left: 2
+    margin-top: 0
+
+  BotLabel
+    id: friendHp
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: item.bottom
+    text-align: center
+
+  HorizontalScrollBar
+    id: minFriendHp
+    anchors.left: parent.left
+    anchors.right: parent.horizontalCenter
+    anchors.top: friendHp.bottom
+    margin-right: 2
+    margin-top: 2
+    minimum: 0
+    maximum: 100
+    step: 1
+    
+  HorizontalScrollBar
+    id: maxFriendHp
+    anchors.left: parent.horizontalCenter
+    anchors.right: parent.right
+    anchors.top: prev.top
+    margin-left: 2
+    minimum: 0
+    maximum: 100
+    step: 1    
+  ]], parent)
+  
+  if not ui then
+    print("Erro ao criar a interface de usuário.")
+    return
+  end
+
+  ui:setId(panelName)
+  ui.title:setText("Potion party/guild")
+
+  if not storage[panelName] then
+    storage[panelName] = {
+      minFriendHp = 40,
+      maxFriendHp = 90,
+      item = 3160,
+      enabled = false
+    }
+  end
+
+  ui.title:setOn(storage[panelName].enabled)
+  ui.title.onClick = function(widget)
+    storage[panelName].enabled = not storage[panelName].enabled
+    widget:setOn(storage[panelName].enabled)
+  end
+
+  ui.item.onItemChange = function(widget)
+    storage[panelName].item = widget:getItemId()
+  end
+  ui.item:setItemId(storage[panelName].item)
+
+  local updateFriendHpText = function()
+    ui.friendHp:setText(string.format("%d%% <= hp <= %d%%", storage[panelName].minFriendHp, storage[panelName].maxFriendHp))
+  end
+
+  ui.minFriendHp.onValueChange = function(scroll, value)
+    storage[panelName].minFriendHp = value
+    updateFriendHpText()
+  end
+  ui.maxFriendHp.onValueChange = function(scroll, value)
+    storage[panelName].maxFriendHp = value
+    updateFriendHpText()
+  end
+
+  ui.minFriendHp:setValue(storage[panelName].minFriendHp)
+  ui.maxFriendHp:setValue(storage[panelName].maxFriendHp)
+  updateFriendHpText()
+
+  print("Interface de usuário criada com sucesso.")
+
+  macro(200, function()
+    if not storage[panelName].enabled then return end
+    
+    for _, spec in ipairs(getSpectators()) do
+      if spec:isPlayer() and (spec:getShield() >= 3 or spec:getEmblem() == 1) then
+        if storage[panelName].minFriendHp <= spec:getHealthPercent() and spec:getHealthPercent() <= storage[panelName].maxFriendHp then
+          useWith(storage[panelName].item, spec)
+        end
+      end
+    end
+  end)
+end
+runePartyAndGuildMembers()
+
+---------
+
+
+
+local toolsTabActive = false
+
+function setMainTab()
+    setDefaultTab("main")
+end
+
+function setToolsTab()
+    setDefaultTab("Especial")
+    toolsTabActive = true
+end
+
+function unsetToolsTab()
+    toolsTabActive = false
+end
+
+setMainTab()
+
+local hpAmigos = 60 -- % de hp
+sioptold = macro(400, "Vai usar sio na PT", function()
+    local jogadorlocal = g_game.getLocalPlayer()
+    if jogadorlocal:getHealth() / jogadorlocal:getMaxHealth() > 0.5 then
+        for i, vida in pairs(g_map.getSpectators(jogadorlocal:getPosition())) do
+            if vida:getId() ~= jogadorlocal:getId() and vida:getHealthPercent() <= hpAmigos and (vida:getShield() == 3 or vida:getEmblem() == 1) then
+                say(storage.magiacura '"'.. vida:getName())
+            end
+        end
+    end
+end)
+
+setToolsTab() 
+
+if toolsTabActive then
+    lblInfo = UI.Label("Nome Da Magia De Sio ")
+    lblInfo:setColor("lightGray")
+
+    addTextEdit("curapt", storage.magiacura or "", function(widget, text)
+        storage.magiacura = text
+    end)
+end
+
+
+------
+
+local toolsTabActive = false
+
+
+function setMainTab()
+    setDefaultTab("main")
+end
+
+
+function setToolsTab()
+    setDefaultTab("Especial")
+    toolsTabActive = true
+end
+
+
+function unsetToolsTab()
+    toolsTabActive = false
+end
+
+
+setMainTab()
+
+
+function isSummonOnScreen(summonName)
+    for _, spec in ipairs(getSpectators()) do
+        if not spec:isPlayer() and spec:getName() == summonName then
+            return true
+        end
+    end
+    return false
+end
+
+
+Summon = macro(100, "Summon", function()
+    if not isSummonOnScreen(storage.summonnome) then
+        say(storage.summonnome)
+    end
+end)
+
+
+setToolsTab()
+if toolsTabActive then
+    lblInfo = UI.Label("Nome Summon")
+    lblInfo:setColor("lightGray")
+
+    UI.TextEdit(storage.summonnome or "", function(widget, text)   
+        storage.summonnome = text
+    end)
+end
+
+------
+
+
+function setMainTab()
+    setDefaultTab("main")
+end
+
+setMainTab()
+if not storage.FriendText then
+    storage.FriendText = ""
+end
+
+isAmigo = function(name)
+    if type(name) ~= 'string' then
+        name = name:getName()
+    end
+    local tabela = storage.FriendText:split('\n')
+    tabela = #tabela > 0 and tabela or false
+    if not tabela or #tabela == 0 then
+        return false
+    end
+    return table.find(tabela, name:trim(), true)
+end
+
+atacaold = macro(1, 'Ataca Todos', function()
+    local possibleTarget = false
+    for _, creature in ipairs(getSpectators(posz())) do
+        local specHP = creature:getHealthPercent()
+        if creature:isPlayer() and specHP and specHP > 0 then
+            if not isAmigo(creature) and creature:getEmblem() ~= 1 then
+                if creature:canShoot(9) then
+                    if not possibleTarget or possibleTargetHP > specHP or (possibleTargetHP == specHP and possibleTarget:getId() < creature:getId()) then
+                        possibleTarget = creature
+                        possibleTargetHP = possibleTarget:getHealthPercent()
+                    end
+                end
+            end
+        end
+    end
+    if possibleTarget and g_game.getAttackingCreature() ~= possibleTarget then
+        g_game.attack(possibleTarget)
+    end
+end)
+---enemyicon = addIcon("atacaold", {item=11371, movable=true, text="Enemy"},atacaold)
+
+UI.Button("Lista de Amigos", function(newText)
+    UI.MultilineEditorWindow(storage.FriendText or "", {title="Amigos", description="Coloque o nome dos amigos", width=250, height=200}, function(text)
+        storage.FriendText = text
+        reload()
+    end)
+end)
+
+------
+
+
+---
+function setMainTab()
+    setDefaultTab("main")
+end
+
+setMainTab()
+lblInfo= UI.Label("Uteis")
+lblInfo:setColor("lightGray")
+------
+
+
+
+------
+
+function setMainTab()
+    setDefaultTab("main")
+end
+
+setMainTab()
+local ignoreEmblems = {1,4} -- Guild Emblems (Allies)
+
+local ui = setupUI([[
+Panel
+  height: 19
+
+  BotSwitch
+    id: title
+    anchors.top: parent.top
+    anchors.left: parent.left
+    text-align: center
+    width: 130
+    !text: tr('Revidar')
+    font: verdana-11px-rounded
+
+  Button
+    id: edit
+    anchors.top: prev.top
+    anchors.left: prev.right
+    anchors.right: parent.right
+    margin-left: 3
+    height: 17
+    text: Editar
+    font: verdana-11px-rounded
+]])
+
+local edit = setupUI([[
+RevideBox < CheckBox
+  font: verdana-11px-rounded
+  margin-top: 5
+  margin-left: 5
+  anchors.top: prev.bottom
+  anchors.left: parent.left
+  anchors.right: parent.right
+  color: lightGray
+
+Panel
+  height: 123
+
+  RevideBox
+    id: pauseTarget
+    anchors.top: parent.top
+    text: Target 
+    !tooltip: tr('desliga o target ')
+
+  RevideBox
+    id: pauseCave
+    text: CaveBot 
+    !tooltip: tr('desliga o CaveBot')
+
+  RevideBox
+    id: followTarget
+    text: Fallow
+    !tooltip: tr('segue o inimigo')
+
+  RevideBox
+    id: ignoreParty
+    text: Ignorar Party
+
+  RevideBox
+    id: ignoreGuild
+    text: Ignorar Guild
+
+  RevideBox
+    id: attackAll
+    text: All
+    !tooltip: tr("ataca tudo")
+
+  BotTextEdit
+    id: esc
+    width: 50
+    anchors.bottom: parent.bottom
+    anchors.right: parent.right
+    text: Escape
+    color: orange
+    font: verdana-11px-rounded
+]])
+edit:hide()
+
+local showEdit = false
+ui.edit.onClick = function(widget)
+  showEdit = not showEdit
+  if showEdit then
+    edit:show()
+  else
+    edit:hide()
+  end
+end
+-- End Basic UI
+
+-- Storage
+local st = "RevideFight"
+storage[st] = storage[st] or {
+  enabled = false,
+  pauseTarget = true,
+  pauseCave = true,
+  followTarget = true,
+  ignoreParty = false,
+  ignoreGuild = false,
+  attackAll = false,
+  esc = "Escape",
+}
+local config = storage[st]
+
+-- UI Functions
+-- Main Button
+ui.title:setOn(config.enabled)
+ui.title.onClick = function(widget)
+  config.enabled = not config.enabled
+  widget:setOn(config.enabled)
+end
+
+-- Checkboxes
+do
+  edit.pauseTarget:setChecked(config.pauseTarget)
+  edit.pauseTarget.onClick = function(widget)
+    config.pauseTarget = not config.pauseTarget
+    widget:setChecked(config.pauseTarget)
+    widget:setImageColor(config.pauseTarget and "lightGray" or "red")
+  end
+  edit.pauseTarget:setImageColor(config.pauseTarget and "lightGray" or "red")
+  
+  edit.pauseCave:setChecked(config.pauseCave)
+  edit.pauseCave.onClick = function(widget)
+    config.pauseCave = not config.pauseCave
+    widget:setChecked(config.pauseCave)
+    widget:setImageColor(config.pauseCave and "lightGray" or "red")
+  end
+  edit.pauseCave:setImageColor(config.pauseCave and "lightGray" or "red")
+
+  edit.followTarget:setChecked(config.followTarget)
+  edit.followTarget.onClick = function(widget)
+    config.followTarget = not config.followTarget
+    widget:setChecked(config.followTarget)
+    widget:setImageColor(config.followTarget and "lightGray" or "red")
+  end
+  edit.followTarget:setImageColor(config.followTarget and "lightGray" or "red")
+
+  edit.ignoreParty:setChecked(config.ignoreParty)
+  edit.ignoreParty.onClick = function(widget)
+    config.ignoreParty = not config.ignoreParty
+    widget:setChecked(config.ignoreParty)
+    widget:setImageColor(config.ignoreParty and "lightGray" or "red")
+  end
+  edit.ignoreParty:setImageColor(config.ignoreParty and "lightGray" or "red")
+
+  edit.ignoreGuild:setChecked(config.ignoreGuild)
+  edit.ignoreGuild.onClick = function(widget)
+    config.ignoreGuild = not config.ignoreGuild
+    widget:setChecked(config.ignoreGuild)
+    widget:setImageColor(config.ignoreGuild and "lightGray" or "red")
+  end
+  edit.ignoreGuild:setImageColor(config.ignoreGuild and "lightGray" or "red")
+
+  edit.attackAll:setChecked(config.attackAll)
+  edit.attackAll.onClick = function(widget)
+    config.attackAll = not config.attackAll
+    widget:setChecked(config.attackAll)
+    widget:setImageColor(config.attackAll and "lightGray" or "red")
+  end
+  edit.attackAll:setImageColor(config.attackAll and "lightGray" or "red")
+end
+
+-- TextEdit
+edit.esc:setText(config.esc)
+edit.esc.onTextChange = function(widget, text)
+  config.esc = text
+end
+edit.esc:setTooltip("Hotkey to cancel attack.")
+
+-- End of setup.
+
+local target = nil
+local c = config
+
+-- Main Loop
+revidarold = macro(250, function()
+  if not c.enabled then return end
+  if not target then
+    if c.pausedTarget then
+      c.pausedTarget = false
+      TargetBot.setOn()
+    end
+    if c.pausedCave then
+      c.pausedCave = false
+      CaveBot.setOn()
+    end
+    -- Search for attackers
+    local creatures = getSpectators(false)
+    for s, spec in ipairs(creatures) do
+      if spec ~= player and spec:isPlayer() then
+        if (c.attackAll and spec:getSkull() > 2) or spec:isTimedSquareVisible() then
+          if c.ignoreParty or spec:getShield() < 3 then
+            if c.ignoreGuild or not table.find(ignoreEmblems, spec:getEmblem()) then
+              target = spec:getName()
+              break
+            end
+          end
+        end
+      end
+    end
+    return
+  end
+
+  local creature = getPlayerByName(target)
+  if not creature then target = nil return end
+  if c.pauseTargetBot then
+    c.pausedTarget = true
+    TargetBot.setOff()
+  end
+  if c.pauseTarget then
+    c.pausedTarget = true
+    TargetBot.setOff()
+  end
+  if c.pauseCave then
+    c.pausedCave = true
+    CaveBot.setOff()
+  end
+
+  if c.followTarget then
+    g_game.setChaseMode(2)
+  end
+
+  if g_game.isAttacking() then
+    if g_game.getAttackingCreature():getName() == target then
+      return
+    end
+  end
+  g_game.attack(creature)
+end)
+
+onKeyDown(function(keys)
+  if not c.enabled then return end
+  if keys == config.esc then
+    target = nil
+  end
+end)
+
+-------
+
+local toolsTabActive = false
+
+function setMainTab()
+    setDefaultTab("main")
+end
+
+function setToolsTab()
+    setDefaultTab("Especial")
+    toolsTabActive = true
+end
+
+function unsetToolsTab()
+    toolsTabActive = false
+end
+
+setToolsTab()
+
+if toolsTabActive then
+    lblInfo = UI.Label("Id Void")
+    lblInfo:setColor("lightGray")
+
+    UI.TextEdit(storage.dodge or "", function(widget, text)
+        storage.dodge = tonumber(text)
+    end)
+end
+
+setMainTab()
+
+function dodge()
+    local playerPos = pos()
+    local playerTile = g_map.getTile(playerPos)
+    local effect = hasEffect(playerTile, storage.dodge) and 1 or 0
+    local targetPos = findNearestTileWithoutEffect(storage.dodge, playerPos, 5)
+    if not targetPos then
+        print("Could not find a target tile")
+        return
+    end
+    if effect == 1 then
+        autoWalk(targetPos, 50, { ignoreNonPathable = true, precision = 1 })
+        delay(1000)
+    end
+    local newPlayerTile = g_map.getTile(pos())
+    if hasEffect(newPlayerTile, storage.dodge) then
+        print("Player is on a tile with effect " .. storage.dodge .. " after moving")
+    end
+end
+
+function hasEffect(tile, effect)
+    for _, fx in ipairs(tile:getEffects()) do
+        if fx:getId() == effect then
+            return true
+        end
+    end
+    return false
+end
+
+function findNearestTileWithoutEffect(effect, centerPos, range)
+    local minDist, targetPos = nil, nil
+    for x = -range, range do
+        for y = -range, range do
+            local pos = {x = centerPos.x + x, y = centerPos.y + y, z = centerPos.z}
+            local dist = math.abs(x) + math.abs(y)
+            if dist > 0 and (not minDist or dist < minDist) then
+                local tile = g_map.getTile(pos)
+                if tile and not hasEffect(tile, effect) and g_map.isWalkable(pos) then
+                    minDist = dist
+                    targetPos = pos
+                end
+            end
+        end
+    end
+    return targetPos
+end
+
+macro(200, "Auto Void", dodge)
+
+
+----
+
+local codigoEncontrado = false 
+
+macro(100, "Auto !CODIGO", function()
+    if codigoEncontrado then
+        return 
+    end
+
+    local rootWidget = g_ui.getRootWidget()
+    for i, rootW in pairs(rootWidget:getChildren()) do
+        if rootW:getText() == "For Your Information" then
+            local messageBoxLabel = rootW:getChildById('messageBoxLabel')
+            local codigo = messageBoxLabel:getText():match("Codigo de saida: !codigo (%d+)")
+            if codigo then
+                say("!codigo " .. codigo)
+                codigoEncontrado = true  
+            end
+            break
+        end
+    end
+end)
+
+
+
+-------
+addLabel("Label", "Nome Amigo")
+
+UI.TextEdit(storage.fName or "Nome", function(widget, newText)
+  storage.fName = newText
+end)
+--------------------------
+local lastPos = nil
+fallowold = macro(200, "Follow", function()  
+  local leader = getCreatureByName(storage.fName)
+  local target = g_game.getAttackingCreature()
+  if leader then
+    if target and lastPos then
+      return player:autoWalk(lastPos)
+    end
+    if not g_game.getFollowingCreature() then
+      return g_game.follow(leader)
+    end
+  elseif lastPos then
+    player:autoWalk(lastPos)
+  end
+end)
+
+onCreaturePositionChange(function(creature, newPos, oldPos)
+  local leader = getCreatureByName(storage.fName)
+  if leader ~= creature or not newPos then return end
+  lastPos = newPos
+end)
+
+-----
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
