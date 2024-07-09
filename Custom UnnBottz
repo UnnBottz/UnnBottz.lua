@@ -1,5 +1,5 @@
 setDefaultTab("Main")
-lblInfo= UI.Label("PvP UnnBottz")
+lblInfo= UI.Label("PvP")
 lblInfo:setColor("lightGray")
 -----
 g_ui.loadUIFromString([[
