@@ -1253,6 +1253,212 @@ lblInfo:setColor("lightGray")
 
 -------------------------------------------
 
+
+
+
+
+
+local ui = setupUI([[
+Panel
+  height: 16
+  width: 250
+
+  BotSwitch
+    id: title
+    anchors.top: parent.top
+    anchors.left: parent.left
+    text-align: center
+    width: 130
+    !text: tr('Trocar Arma')
+    font: verdana-11px-rounded
+
+  Button
+    id: edit
+    anchors.top: prev.top
+    anchors.left: prev.right
+    anchors.right: parent.right
+    margin-left: 5
+    height: 16
+    text: Editar
+    font: verdana-11px-rounded
+]])
+
+local editPanel = setupUI([[
+Panel
+  height: 100
+  width: 250
+  margin-top: 5
+  margin-left: 5
+  margin-right: 5
+  padding: 5
+  border-width: 1
+  border-color: gray
+
+  Label
+    text: UnnBottz
+    color: lightGray
+    text-align: center
+    anchors.top: parent.top
+    anchors.left: parent.left
+    font: verdana-11px-rounded
+    margin-top: 5
+    width: 90
+
+  Button
+    id: save
+    anchors.top: prev.top
+    anchors.left: prev.right
+    anchors.right: parent.right
+    margin-left: 5
+    height: 10
+    text: Salvar
+    font: verdana-11px-rounded
+
+  HorizontalSeparator
+    anchors.top: prev.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 5
+    height: 2
+
+  Label
+    text: Arma MELE
+    color: lightGray
+    text-align: center
+    anchors.top: prev.bottom
+    anchors.left: parent.left
+    font: verdana-11px-rounded
+    margin-top: 5
+    margin-right: 5
+
+  Label
+    text: Arma DIST
+    color: lightGray
+    text-align: center
+    anchors.top: prev.top
+    anchors.left: prev.right
+    font: verdana-11px-rounded
+    margin-left: 25
+
+  HorizontalSeparator
+    anchors.top: prev.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 5
+    height: 2
+
+  BotItem
+    id: closeWeapon
+    anchors.top: prev.bottom
+    anchors.left: parent.left
+    margin-top: 3
+    margin-left: 10
+    width: 46
+    height: 46
+
+  BotItem
+    id: distWeapon
+    anchors.top: closeWeapon.top
+    anchors.left: closeWeapon.right
+    margin-left: 50
+    width: 46
+    height: 46
+]])
+editPanel:hide()
+local showEdit = false
+
+-- Função para salvar as configurações
+local function saveConfig()
+  storage.changeWeapon = ui.title:isOn()
+  storage.closeWeaponId = editPanel.closeWeapon:getItemId()
+  storage.distWeaponId = editPanel.distWeapon:getItemId()
+  print("Configurações salvas:", storage.changeWeapon, storage.closeWeaponId, storage.distWeaponId)
+end
+
+-- Carregar configurações salvas ou definir padrões
+if storage.changeWeapon == nil then
+  storage.changeWeapon = false
+end
+ui.title:setOn(storage.changeWeapon)
+
+if storage.closeWeaponId then
+  editPanel.closeWeapon:setItemId(storage.closeWeaponId)
+end
+
+if storage.distWeaponId then
+  editPanel.distWeapon:setItemId(storage.distWeaponId)
+end
+
+-- Callback para o botão Editar
+ui.edit.onClick = function(widget)
+  showEdit = not showEdit
+  if showEdit then
+    editPanel:show()
+  else
+    editPanel:hide()
+  end
+end
+
+-- Callback para o botão Salvar
+editPanel.save.onClick = function(widget)
+  saveConfig()
+end
+
+-- Callback para o botão Trocar Arma
+ui.title.onClick = function(widget)
+  storage.changeWeapon = not storage.changeWeapon
+  ui.title:setOn(storage.changeWeapon)
+  print("Trocar Arma ativado:", storage.changeWeapon)
+  saveConfig()  -- Salvar configurações ao clicar no botão
+end
+
+-- Macro para trocar de arma
+macro(10, function()
+  if not storage.changeWeapon then return end
+  
+  local getAttackingCreature = tyrBot and tyrBot.getAttackingCreature or g_game.getAttackingCreature
+  local target = getAttackingCreature()
+  if not target then return end
+  
+  local targetPos = target:getPosition()
+  if not targetPos then return end
+  
+  local distance = getDistanceBetween(targetPos, pos())
+  local slotLeft = getLeft()
+  local weaponId = distance <= 1 and editPanel.closeWeapon:getItemId() or editPanel.distWeapon:getItemId()
+  
+  print("Distância:", distance)
+  print("Arma selecionada:", weaponId)
+  
+  if not slotLeft or slotLeft:getId() ~= weaponId then
+    local weaponEquip = findItem(weaponId)
+    if weaponEquip then
+      g_game.stop()
+      moveToSlot(weaponEquip, SlotLeft)
+      print("Arma trocada para ID:", weaponId)
+    end
+  end
+end)
+
+-- Inicialmente, definir os IDs dos itens nas labels do editPanel
+editPanel.closeWeapon:setItemId(storage.closeWeaponId or 0)
+editPanel.distWeapon:setItemId(storage.distWeaponId or 0)
+
+-- Exemplo de mensagem informativa ao carregar o script
+modules.game_textmessage.displayGameMessage("Troca de Armas (Script) criado por: UnnBottz. Script Carregado.")
+
+-- Salvar configurações ao iniciar o script
+saveConfig()
+
+
+
+
+
+
+
+
+---------------
+
 function runePartyAndGuildMembers(parent)
   if not parent then
     parent = panel
