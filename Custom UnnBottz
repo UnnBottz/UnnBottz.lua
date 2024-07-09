@@ -967,7 +967,7 @@ Panel
     id: ligarKunai
     anchors.top: parent.top
     text: Kunai
-    !tooltip: tr('Ligar DashKunai')
+    !tooltip: tr('Ligar Dash Kunai')
 ]])
 
 local st = "KunaiFight"
@@ -1063,7 +1063,7 @@ Panel
     id: ligarFaceTarget 
     anchors.top: parent.top
     text: Turn
-    !tooltip: tr('Ligar FaceTarget')
+    !tooltip: tr('Ligar Face Target')
 ]])
 
 
@@ -1237,9 +1237,12 @@ if toolsTabActive then
     end)
 end
 
+function setMainTab()
+    setDefaultTab("main")
+end
 
+setMainTab()
 
-------
 
 
 
@@ -1368,6 +1371,7 @@ runePartyAndGuildMembers()
 
 
 
+-- Initialize tabs
 local toolsTabActive = false
 
 function setMainTab()
@@ -1383,30 +1387,37 @@ function unsetToolsTab()
     toolsTabActive = false
 end
 
+-- Set to main tab by default
 setMainTab()
 
-local hpAmigos = 60 -- % de hp
-sioptold = macro(400, "Vai usar sio na PT", function()
+-- Health threshold for friends (party members)
+local hpAmigos = 70 -- % of HP
+
+-- Macro to use healing spell on party members
+local sioptold = macro(400, "Vai usar sio na PT", function()
     local jogadorlocal = g_game.getLocalPlayer()
     if jogadorlocal:getHealth() / jogadorlocal:getMaxHealth() > 0.5 then
         for i, vida in pairs(g_map.getSpectators(jogadorlocal:getPosition())) do
             if vida:getId() ~= jogadorlocal:getId() and vida:getHealthPercent() <= hpAmigos and (vida:getShield() == 3 or vida:getEmblem() == 1) then
-                say(storage.magiacura '"'.. vida:getName())
+                say(storage.magiacura .. ' "' .. vida:getName() .. '"')
             end
         end
     end
 end)
 
-setToolsTab() 
+-- Set to tools tab if active
+setToolsTab()
 
 if toolsTabActive then
-    lblInfo = UI.Label("Nome Da Magia De Sio ")
+    -- UI elements for the tools tab
+    local lblInfo = UI.Label("Nome Da Magia De Sio ")
     lblInfo:setColor("lightGray")
 
     addTextEdit("curapt", storage.magiacura or "", function(widget, text)
         storage.magiacura = text
     end)
 end
+
 
 
 ------
